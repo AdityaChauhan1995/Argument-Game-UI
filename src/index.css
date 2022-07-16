@@ -1,0 +1,176 @@
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+.ui.container.container {
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	background-color: #FAFAFA;
+	height: 100%;
+}
+
+.ui.segment.header {
+	min-width: 900px;
+	background-color: #FFFFFF;
+	padding: 5px 15px 5px 15px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	box-shadow: 0px 2px 2px 2px #F1F1F1;
+}
+
+.ui.segment.header .brand{
+	font-size: 18px;
+	color: #757678;
+}
+
+.ui.segment.header .brandHighlight{
+	font-weight: bold;	
+	color: #293895;
+}
+
+.ui.segment.header .menu {
+	margin-left: 100px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.ui.segment.header .menu .seperator{
+	padding: 10px;
+	font-size: 18px;
+	color: #293895;
+	font-weight: bold;
+	border: 0px;
+}
+
+.ui.segment.header .welcomeMessage {
+	font-size: 12px;
+	color: #757678;
+	margin-right: 20px;
+}
+
+.ui.segment.header .welcomeMessage .highlight {
+	font-size: 12px;
+	font-weight: bold;	
+	color: #293895;
+}
+
+.ui.button{
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.ui.basic.button{
+	box-shadow: 0 0 0 2px #293895 inset!important;
+	color: #293895!important;
+}
+
+.ui.primary.button{
+	background-color: #293895!important;	
+	font-weight: bold;
+}
+
+.ui.compact.button{
+	padding: 8px 12px;
+}
+
+.ui.red.button{
+	background-color: #E14040!important;	
+}
+
+.ui.basic.buttons{
+	border: 0;
+}
+
+.ui.basic.buttons .ui.button.toggle.active{
+	background-color: #293895!important;
+	font-size: 12px;
+	font-weight: bold;
+	border: 2px solid #293895;
+}
+
+.ui.basic.buttons .ui.button.toggle{
+	font-size: 12px;
+	font-weight: bold;
+	border: 2px solid #293895;
+}
+
+
+.ui.basic.label.itemActive{
+	border: 0px;
+    color: #293895;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px;
+}
+
+.ui.basic.label.item{
+	border: 0px;
+    color: #757678;
+    font-size: 12px;
+    font-weight: normal;
+    opacity: 0.7;
+    padding: 0px;
+}
+
+.ui.input>input{
+	color: #757678!important;
+	font-size: 14px;
+}
+
+.ui.input .icon{
+	color: #293895;
+}
+
+.ui.segment.content {
+	min-width: 900px;
+	overflow-y: auto;
+	overflow-x: auto;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	padding: 5px 15px;
+}
+
+.ui.segment.footer {
+	min-width: 900px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 15px 5px 15px;
+}
+.ui.segment.footer .message{
+	font-size: 12px;
+	color: #757678;
+}
+.ui.segment.footer .message .icon{
+	font-size: 14px;
+}
+
+.ui.header{
+	color: #757678;
+}
+.ui.header.highlight{
+	color: #293895;
+}
+
+/* dimmer fix */
+.dimmed.dimmable>.ui.animating.dimmer, .dimmed.dimmable>.ui.visible.dimmer, .ui.active.dimmer{
+	display: flex!important;
+}
+
+.ui.modal>.header>.highlight{
+	color: #293895;
+}
+
+.ui.dropdown .menu>.item{
+	font-size: 11px;
+}
+
+.ui.progress .bar{
+	background-color: #293895;	
+}
+

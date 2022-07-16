@@ -1,0 +1,161 @@
+/* add node */
+.btn-add {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 5px;
+  background-color: #ffc982;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Remove Node */
+.btn-add8 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 225px;
+  background-color: #ff6060;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Save map */
+.btn-add2 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 378px;
+  background-color: #9af793;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Reset map */
+.btn-add4 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 498px;
+  background-color: #555555;
+  font-size: 28px;
+  color: white;
+}
+
+/* Play game */
+.btn-add3 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 620px;
+  background-color: #5fccff;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Add game node */
+.btn-add5 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 275px;
+  background-color: #a1b7ff;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Validate node */
+.btn-add7 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 330px;
+  background-color: #6cff69;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Hint */
+.btn-add10 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 486px;
+  background-color: #f6ff55;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Result */
+.btn-add9 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 592px;
+  background-color: #6fffe2;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+}
+
+/* Reset game */
+.btn-add6 {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 692px;
+  background-color: #555555;
+  font-size: 28px;
+  color: rgb(255, 255, 255);
+}
+
+
+.checkboxComputer{
+  margin-top: 5px;
+  margin-left: 204px;
+}
+
+.labelStyle {
+  position: relative;
+  display: block;
+  padding-left: 1.4em;
+  outline: 0;
+  font-size: 0.867em;
+  font-weight: 550;
+  background:#f4b1b1;
+  padding:0px;
+  margin-left:18px;
+  margin-top: -22px;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #D3D3E5;
+}
+
+.right {
+  right: 0;
+  background-color: #f4b1b1;
+}
+
+.messageDisplayed {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 55px;
+  padding-left: 400px;
+  background:rgb(0, 0, 0);
+  opacity:75%;
+}
