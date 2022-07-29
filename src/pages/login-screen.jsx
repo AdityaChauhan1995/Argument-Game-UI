@@ -30,7 +30,13 @@ const Flow = ({defaultNodes,defaultEdges,addMapNodeDisabled}) => {
   const reactFlowInstance = useReactFlow();
   const onClick = useCallback(() => {
     var count = reactFlowInstance.getNodes().length;
-    const id = `${++count}`;
+    console.log('count',count);
+    var tempId = 0;
+    if(count != 0){
+      tempId = reactFlowInstance.getNodes()[count-1].id;
+      tempId = parseInt(tempId);
+    }
+    const id = `${++tempId}`;
     const newNode = {
       id,
       position: {
@@ -221,17 +227,17 @@ const ResetGame = ({resetGame,resetGameDisabled,resetMapClicked}) => {
 }
 
 const Validate = ({initialNode,gameTreeList,validateMove,validateMoveClicked,validateMoveResult, 
-  validationFinished, proponentWinCount, opponentWinCount,lastAddedNode,validateDisabled,gameStart}) => {
+  validationFinished, proponentWinCount, opponentWinCount,lastAddedNode,validateDisabled,gameStart,gameType}) => {
   const reactFlowInstance = useReactFlow();
   var tempProponentWinCount = -1, tempOpponentWinCount = -1;
   // console.log('initialNode',initialNode,'gameTreeList',gameTreeList,'validateMove',validateMove);
-  const onClick = (initialNode,gameTreeList,validateMove,lastAddedNode,proponentWinCount,opponentWinCount,gameStart) => () => {
+  const onClick = (initialNode,gameTreeList,validateMove,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType) => () => {
     console.log('2',initialNode,gameTreeList)
     // alert('Invalid Move');
     // reactFlowInstance.addNodes({id: '2',data: { label: 'Node 2' }, position: { x: 250, y: 25 }});
     // reactFlowInstance.addEdges({id: 'e1-2', source: '1', target: '2'});
     validateMove(initialNode,gameTreeList,reactFlowInstance.getNodes(),reactFlowInstance.getEdges(),lastAddedNode.id, 
-    proponentWinCount, opponentWinCount,gameStart);
+    proponentWinCount, opponentWinCount,gameStart,gameType);
     
   };
   console.log('validateMoveClicked',validateMoveClicked);
@@ -294,7 +300,7 @@ const Validate = ({initialNode,gameTreeList,validateMove,validateMoveClicked,val
 
   return (
     <React.Fragment>
-     <button onClick={onClick(initialNode,gameTreeList,validateMove,lastAddedNode,proponentWinCount,opponentWinCount,gameStart)} className="btn-add7" disabled={validateDisabled}>
+     <button onClick={onClick(initialNode,gameTreeList,validateMove,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType)} className="btn-add7" disabled={validateDisabled}>
      <Icon name='check circle outline' />Validate
      </button>
       </React.Fragment>
@@ -359,8 +365,10 @@ class LoginScreen extends Component {
       message:'',
       showDimmer:false,
       messageColor:'blue',
-      gameStart:'Proponent',
-      isGameStartChecked:false
+      gameStart:'User',
+      isGameStartChecked:false,
+      infoLeftVisibility:'Hide',
+      infoRightVisibility:'Hide'
     }
     this.showErr = React.createRef(); 
   }
@@ -447,7 +455,7 @@ class LoginScreen extends Component {
   addbutton = (gameNode) => {
     let {initialNode,gameTreeMap,gameType,gameStart} = this.state;
     if(initialNode == null){
-      if(gameStart == 'Proponent'){
+      if(gameStart == 'User'){
         this.setState({initialNode:gameNode.id, lastAddedNode:gameNode,validateDisabled:false,gameTypeDisabled:true,
           addGameNodeDisabled:true,hintDisabled:true,showDimmer:true,gameStartDisabled:true})
       }else{
@@ -463,9 +471,9 @@ class LoginScreen extends Component {
     }
   }
 
-  validateMove = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart) => {
+  validateMove = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType) => {
     this.setState({showDimmer:true});
-    this.props.validateMove(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart);
+    this.props.validateMove(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType);
     console.log('this.state.validateMoveClicked', this.state.validateMoveClicked)
   
   }
@@ -498,11 +506,11 @@ class LoginScreen extends Component {
   resetGame = () => {
     if(this.state.resetMapClicked){
       this.setState({initialNode:null,proponentWinCount:0,opponentWinCount:0, resultMessage:null, resetMapClicked:false,
-        gameType:'', gameNode:'',gameTypeDisabled:true,addGameNodeDisabled:true,gameStart:'Proponent',isGameStartChecked:false,
+        gameType:'', gameNode:'',gameTypeDisabled:true,addGameNodeDisabled:true,gameStart:'User',isGameStartChecked:false,
         gameStartDisabled:true});
     }else{
       this.setState({initialNode:null,proponentWinCount:0,opponentWinCount:0, resultMessage:null, resetMapClicked:false,
-        gameType:'', gameNode:'',gameTypeDisabled:false,addGameNodeDisabled:true,gameStart:'Proponent',isGameStartChecked:false,
+        gameType:'', gameNode:'',gameTypeDisabled:false,addGameNodeDisabled:true,gameStart:'User',isGameStartChecked:false,
         gameStartDisabled:true });
     }
   }
@@ -511,7 +519,7 @@ class LoginScreen extends Component {
     this.setState({initialNode:null,proponentWinCount:0,opponentWinCount:0, resultMessage:null, resetMapClicked:true,
         addMapNodeDisabled:false,removeDisabled:false,saveDisabled:false,resetMapDisabled:false,playGameDisabled:false,
         gameTypeDisabled:true,addGameNodeDisabled:true,validateDisabled:true,resetGameDisabled:true,hintDisabled:true,
-        resultDisabled:true,gameType:'', gameNode:'',removeNode:'',gameStart:'Proponent',isGameStartChecked:false,
+        resultDisabled:true,gameType:'', gameNode:'',removeNode:'',gameStart:'User',isGameStartChecked:false,
         gameStartDisabled:true });
   }
   
@@ -528,9 +536,9 @@ class LoginScreen extends Component {
 			// this.setState({ [name]: checked }, () => {console.log('checked',checked)});
       console.log('checked',checked)
       if(checked){
-        this.setState({gameStart: 'Opponent',isGameStartChecked:checked});
+        this.setState({gameStart: 'Computer',isGameStartChecked:checked});
       }else{
-        this.setState({gameStart: 'Proponent',isGameStartChecked:checked});
+        this.setState({gameStart: 'User',isGameStartChecked:checked});
       }
 		}
 	}
@@ -550,10 +558,44 @@ class LoginScreen extends Component {
     this.setState({showDimmer:true});
     this.props.hintMove(initialNode,gameTreeList,nodes, edges,gameStart)
   }
+  
+  infoLeft = () => {
+    var tempMessage = "Argument Design Framework \n\n 1) Add Node - New nodes added to the screen." +
+    "\n 2) Remove - Type in the node number & click Remove Button to erase it."+
+    "\n 3) Save - Saving the argument design framework."+
+    "\n 4) Reset - Erase the entire framework."+
+    "\n 5) Play Game - Begin playing argument Game on the right panel."+
+    "\n\n Framework's functionality \n\n User can add nodes and design the framework by connecting different nodes. "+
+    "Each node has two points i.e. head and tail and a connection can only be established b/w two nodes "+
+    "when head of one node is attached to the tail of the other node. Once the framework is finalised "+
+    "then user can save it, saving framework will keep it intact even if the game window is closed. "+
+    "Removal of a specific node is possible via mentioning the node number and clicking on the Remove button. "+
+    "Also, user can reset the whole framework via Reset Button. After the framework is finalised, User can start "+
+    "playing argument game by clicking on Play button.\n";
+    this.setState({infoLeftVisibility:'Show',messageColor:'purple',message:tempMessage });
+  }
+
+  infoRight = () => {
+    var tempMessage = "Argument Games \n\n 1) Game Type - Choose between preferred and grounded game." +
+    "\n 2) Add button - Enter node no & click plus button to add node."+
+    "\n 3) Computer Start checkbox - Computer can begin the arg game."+
+    "\n 4) Validate - User's move of adding and connecting node will be validated and next move is played by the opponent/computer."+
+    "\n 5) Hint - Next best move is hinted for the user i.e. Proponent."+
+    "\n 6) Result - Winning Stratergy so far."+
+    "\n 7) Reset - Erase the game played so far."+
+    "\n\n Game's functionality \n\n User need to select the game type from the dropdown in order to proceed further.Once "+
+    "game type is selected user can either start by adding the node via plus button or user can choose the "+
+    "opponent to begin by checking the 'Computer Start' checkbox and adding the initial node on opponent's behalf followed by the "+
+    "proponent's own move. After the proponent's move, it needs to be validated via validate button. If it's a valid move then "+
+    "opponent's move is added to the game else 'Invalid Move' is displayed. If a winning Stratergy is obtained then it is displayed after "+
+    "validating the move. User can receive hint to reach the winning stratergy faster. Result button displayes the winning stratergies so far. "+
+    "And Reset button will erase the game played so far.";
+    this.setState({infoRightVisibility:'Show',messageColor:'purple',message:tempMessage });
+  }
 
   render() {
-    let {initialNode,removeNode,gameType,gameNode,gameTreeList,defaultNodes,defaultEdges,resetMapClicked,gameStartDisabled,
-         validateMoveClicked,validateMoveResult,proponentWinCount,opponentWinCount, lastAddedNode,showDimmer,gameStart,
+    let {initialNode,removeNode,gameType,gameNode,gameTreeList,defaultNodes,defaultEdges,resetMapClicked,gameStartDisabled,infoLeftVisibility,
+         validateMoveClicked,validateMoveResult,proponentWinCount,opponentWinCount, lastAddedNode,showDimmer,gameStart,infoRightVisibility,
          saveDisabled,resetMapDisabled,playGameDisabled,gameTypeDisabled,resultDisabled,removeDisabled,messageColor,isGameStartChecked,
          addGameNodeDisabled,validateDisabled,resetGameDisabled,hintDisabled,addMapNodeDisabled,status,message} = this.state;
     const options = [
@@ -573,6 +615,9 @@ class LoginScreen extends Component {
     <div class="split left">
       <Input placeholder='Node' name='removeNode' value={removeNode} type='Number' 
       onChange={this.handleChange} style={{ width:80,marginTop:-10, marginLeft:155}}/>
+      <div class="infoCircle1">
+        <Icon name='info circle' size='big' onClick={this.infoLeft}/> 
+      </div>
       <ReactFlowProvider>
         <Save saveMap={this.saveMap} saveDisabled={saveDisabled}/>
         <ResetMap defaultNodes={defaultNodes} defaultEdges={defaultEdges} resetMapDisabled={resetMapDisabled} resetMap={this.resetMap}/>
@@ -593,8 +638,11 @@ class LoginScreen extends Component {
     </button>
     <div class="checkboxComputer">
       <Checkbox onClick={this.handleChangeCheckBox} name='gameStart' checked={isGameStartChecked} disabled={gameStartDisabled} />
-      <label className="labelStyle">Opponent Starts</label>
+      <label className="labelStyle">Computer Starts</label>
     </div>
+    <div class="infoCircle2">
+        <Icon name='info circle' size='big' onClick={this.infoRight}/> 
+      </div>
     <ReactFlowProvider>
       <PlayFlow  /> 
       <AddNodeGame value={gameNode} addbutton={this.addbutton} addGameNodeDisabled={addGameNodeDisabled}/>
@@ -603,7 +651,7 @@ class LoginScreen extends Component {
       <Validate initialNode={initialNode} gameTreeList={gameTreeList} validateMove={this.validateMove} gameStart={gameStart}
         validateMoveClicked={validateMoveClicked} validateMoveResult={validateMoveResult} lastAddedNode={lastAddedNode}
         validationFinished={this.validationFinished} proponentWinCount={proponentWinCount} opponentWinCount={opponentWinCount}
-        validateDisabled={validateDisabled}/>
+        validateDisabled={validateDisabled} gameType={gameType}/>
     </ReactFlowProvider>
     </div>
 
@@ -613,6 +661,24 @@ class LoginScreen extends Component {
         <div class="messageDisplayed"> 
         <Message color={messageColor} size='big' compact style={{ maxWidth: 800,minWidth: 800 }}
 			      onDismiss={() => this.setState({ status: 'Hide' })}>
+				      <Message.Header>{message}</Message.Header>
+		    </Message>
+        </div>
+      }
+      {
+        (infoLeftVisibility === 'Show') &&
+        <div class="infoLeftCSS"> 
+        <Message color={messageColor} size='big' compact style={{ maxWidth: 650,minWidth: 650 }}
+			      onDismiss={() => this.setState({ infoLeftVisibility: 'Hide' })}>
+				      <Message.Header>{message}</Message.Header>
+		    </Message>
+        </div>
+      }
+      {
+        (infoRightVisibility === 'Show') &&
+        <div class="infoRightCSS"> 
+        <Message color={messageColor} size='big' compact style={{ maxWidth: 650,minWidth: 650 }}
+			      onDismiss={() => this.setState({ infoRightVisibility: 'Hide' })}>
 				      <Message.Header>{message}</Message.Header>
 		    </Message>
         </div>
