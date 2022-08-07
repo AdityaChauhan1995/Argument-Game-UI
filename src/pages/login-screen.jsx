@@ -108,16 +108,18 @@ const ResetMap = ({defaultNodes, defaultEdges,resetMapDisabled,resetMap}) => {
 const Remove = ({removeNode,removeDisabled}) => {
   const reactFlowInstance = useReactFlow();
   const onClick = removeNode => () => {
-    console.log(typeof(removeNode),'removeNode',removeNode)
-    var tempNodes = reactFlowInstance.getNodes().filter((x) => {
-			return x.id !== removeNode
-		});
-    var tempEdges = reactFlowInstance.getEdges().filter((x) => {
-			return (x.source !== removeNode && x.target !== removeNode)
-		});
-    reactFlowInstance.setNodes(tempNodes);
-    reactFlowInstance.setEdges(tempEdges);
-    // nodeId = 2;
+    if(removeNode != undefined && removeNode != null && removeNode != ''){
+      console.log(typeof(removeNode),'removeNode',removeNode)
+      var tempNodes = reactFlowInstance.getNodes().filter((x) => {
+        return x.id !== removeNode
+      });
+      var tempEdges = reactFlowInstance.getEdges().filter((x) => {
+        return (x.source !== removeNode && x.target !== removeNode)
+      });
+      reactFlowInstance.setNodes(tempNodes);
+      reactFlowInstance.setEdges(tempEdges);
+      // nodeId = 2;
+    }
   };
 
   return (
@@ -169,6 +171,7 @@ const PlayFlow = ({}) => {
 const AddNodeGame = ({value,addbutton,addGameNodeDisabled}) => {
   const reactFlowInstance = useReactFlow();
   const onClick = value => () => {
+    if(value != undefined && value != null && value != ''){
     var tempNodes = reactFlowInstance.getNodes().filter((x) => {
       return (x.id).split('(')[0] == value
 		});
@@ -194,6 +197,7 @@ const AddNodeGame = ({value,addbutton,addGameNodeDisabled}) => {
     reactFlowInstance.addNodes(gameNode);
     console.log(reactFlowInstance.getEdges());
     addbutton(gameNode);
+    }
   };
 
   return (
@@ -415,7 +419,7 @@ class LoginScreen extends Component {
     }
 
     if (this.props.SAVE_MAP_STATUS !== 'SUCCESS' && nextProps.SAVE_MAP_STATUS === 'SUCCESS') {
-      var tempMessage = 'Saved Succesfully !';
+      var tempMessage = 'Saved Successfully !';
       this.setState({ status:'Show', messageColor:'blue', message:tempMessage,showDimmer:false});
     } else if (this.props.SAVE_MAP_STATUS !== 'FAILED' && nextProps.SAVE_MAP_STATUS === 'FAILED') {
       var tempMessage = 'Unable to connect to Server!! Kindly try again after some time.';
@@ -423,7 +427,11 @@ class LoginScreen extends Component {
     }
 
     if (this.props.HINT_MOVE_STATUS !== 'SUCCESS' && nextProps.HINT_MOVE_STATUS === 'SUCCESS') {
-      this.setState({ status:'Show', messageColor:'blue', message:nextProps.hintMessage,hintMessage: nextProps.hintMessage});
+      if(nextProps.hintMessage != null && nextProps.hintMessage.includes("No Hint Available !")){
+        this.setState({ status:'Show', messageColor:'red', message:nextProps.hintMessage,hintMessage: nextProps.hintMessage});
+      }else{
+        this.setState({ status:'Show', messageColor:'blue', message:nextProps.hintMessage,hintMessage: nextProps.hintMessage});
+      }
       setTimeout(() => this.setState({showDimmer:false}), 100);
     } else if (this.props.HINT_MOVE_STATUS !== 'FAILED' && nextProps.HINT_MOVE_STATUS === 'FAILED') {
       var tempMessage = 'Unable to connect to Server!! Kindly try again after some time.';
@@ -491,11 +499,19 @@ class LoginScreen extends Component {
     if(validateMoveResult.result){
       if(validateMoveResult.win == 'Game Won' || validateMoveResult.win == 'Game Over'){
         if(validateMoveResult.message != null){
-          this.setState({ status:'Show', messageColor:'blue', message:validateMoveResult.message});
+          if(validateMoveResult.message.includes("Game Finished but no winning strategy found.")){
+            this.setState({ status:'Show', messageColor:'red', message:validateMoveResult.message});
+          }else{
+            this.setState({ status:'Show', messageColor:'blue', message:validateMoveResult.message});
+          }
         }
       }else if(validateMoveResult.win == 'Won'){
         if(validateMoveResult.message != null){
-          this.setState({ status:'Show', messageColor:'blue', message:validateMoveResult.message});
+          if(validateMoveResult.message.includes("Game Finished but no winning strategy found.")){
+            this.setState({ status:'Show', messageColor:'red', message:validateMoveResult.message});
+          }else{
+            this.setState({ status:'Show', messageColor:'blue', message:validateMoveResult.message});
+          }
         }
       }
     }else{
@@ -546,10 +562,14 @@ class LoginScreen extends Component {
   showResult = () => {
     let {resultMessage} = this.state;
     if(resultMessage == null){
-      var tempMessage = 'No winning statergy so far';
+      var tempMessage = 'No winning strategy so far';
       this.setState({ status:'Show', messageColor:'red', message:tempMessage});
     }else{
-      this.setState({ status:'Show', messageColor:'blue', message:resultMessage});
+        if(resultMessage.includes("Game Finished but no winning strategy found.")){
+          this.setState({ status:'Show', messageColor:'red', message:resultMessage});
+        }else{
+          this.setState({ status:'Show', messageColor:'blue', message:resultMessage});
+        }
     }
   }  
 
