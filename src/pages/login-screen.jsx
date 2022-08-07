@@ -454,10 +454,15 @@ class LoginScreen extends Component {
   }
 
   playGameFunction = (nodes,edges) => {
-    this.setState({initialNode:null,addMapNodeDisabled:true, removeDisabled:true, playGameDisabled:true, gameTypeDisabled:false,
-       resetGameDisabled:false,removeNode:'',showDimmer:true});
-    console.log('nodes',nodes,'edges',edges)
-    this.props.getGameMap(nodes,edges);
+    console.log('playGameFunction', nodes, edges);
+    if(nodes == undefined || nodes == null || nodes.length < 2){
+      this.setState({ status:'Show', messageColor:'red', message:'Kindly add more than 2 nodes to the Argument design Framework first'});
+    }else{
+      this.setState({initialNode:null,addMapNodeDisabled:true, removeDisabled:true, playGameDisabled:true, gameTypeDisabled:false,
+        resetGameDisabled:false,removeNode:'',showDimmer:true});
+     console.log('nodes',nodes,'edges',edges)
+     this.props.getGameMap(nodes,edges);
+    }
   }
 
   addbutton = (gameNode) => {
