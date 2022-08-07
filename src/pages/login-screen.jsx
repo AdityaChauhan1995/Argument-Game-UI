@@ -372,7 +372,8 @@ class LoginScreen extends Component {
       gameStart:'User',
       isGameStartChecked:false,
       infoLeftVisibility:'Hide',
-      infoRightVisibility:'Hide'
+      infoRightVisibility:'Hide',
+      playedGameNodes:[]
     }
     this.showErr = React.createRef(); 
   }
@@ -455,11 +456,11 @@ class LoginScreen extends Component {
 
   playGameFunction = (nodes,edges) => {
     console.log('playGameFunction', nodes, edges);
-    if(nodes == undefined || nodes == null || nodes.length < 3){
-      this.setState({ status:'Show', messageColor:'red', message:'Kindly add more than 2 nodes to the Argument design Framework first'});
+    if(nodes == undefined || nodes == null || nodes.length < 1){
+      this.setState({ status:'Show', messageColor:'red', message:'Kindly add atleast one node to the Argument design Framework'});
     }else{
       this.setState({initialNode:null,addMapNodeDisabled:true, removeDisabled:true, playGameDisabled:true, gameTypeDisabled:false,
-        resetGameDisabled:false,removeNode:'',showDimmer:true});
+        resetGameDisabled:false,removeNode:'',showDimmer:true, playedGameNodes:nodes});
      console.log('nodes',nodes,'edges',edges)
      this.props.getGameMap(nodes,edges);
     }
@@ -486,7 +487,7 @@ class LoginScreen extends Component {
 
   validateMove = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType) => {
     this.setState({showDimmer:true});
-    this.props.validateMove(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType);
+    this.props.validateMove(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType,this.state.playedGameNodes);
     console.log('this.state.validateMoveClicked', this.state.validateMoveClicked)
   
   }
@@ -541,7 +542,7 @@ class LoginScreen extends Component {
         addMapNodeDisabled:false,removeDisabled:false,saveDisabled:false,resetMapDisabled:false,playGameDisabled:false,
         gameTypeDisabled:true,addGameNodeDisabled:true,validateDisabled:true,resetGameDisabled:true,hintDisabled:true,
         resultDisabled:true,gameType:'', gameNode:'',removeNode:'',gameStart:'User',isGameStartChecked:false,
-        gameStartDisabled:true });
+        gameStartDisabled:true,playedGameNodes:[] });
   }
   
   handleChange = (e, { name, value, type }) => {

@@ -16,8 +16,8 @@ var getList = (gameType,initialNode,gameTreeMap,gameStart) => {
 	return axios.post(GAME_LIST_URL, {gameType,initialNode,gameTreeMap,gameStart});
 }
 
-var validate = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType) => {
-	return axios.post(VALIDATE_URL, {initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType});
+var validate = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType,playedGameNodes) => {
+	return axios.post(VALIDATE_URL, {initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType,playedGameNodes});
 }
 
 var getInitial = () => {
@@ -52,11 +52,11 @@ export const getGameList = (gameType,initialNode,gameTreeMap,gameStart) => {
 	}
 }
 
-export const validateMove = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType) => {
+export const validateMove = (initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType,playedGameNodes) => {
 	return dispatch => {
 		dispatch({
 			type: 'VALIDATE_MOVE_RESULT',
-			payload: validate(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType)
+			payload: validate(initialNode,gameTreeList,nodes,edges,lastAddedNode,proponentWinCount,opponentWinCount,gameStart,gameType,playedGameNodes)
 		})
 
 	}
